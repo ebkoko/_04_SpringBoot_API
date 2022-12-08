@@ -5,9 +5,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -53,6 +55,11 @@ public class ApiController {
 		return returnMap;
 	}
 	
+	// SpringBoot에서는 Mapping 방식이 추가되었다.
+	// GET: 조회
+	// POST: 등록
+	// PUT: 수정
+	// DELETE: 삭제
 	@GetMapping("/restFulApi")
 	public ResponseEntity<?> restFulApi(int boardNo, HttpServletResponse response) {
 		ResponseDTO<BoardDTO> responseDTO = new ResponseDTO<BoardDTO>();
@@ -70,5 +77,20 @@ public class ApiController {
 			
 			return ResponseEntity.badRequest().body(responseDTO);
 		}
+	}
+	
+	@PostMapping("/board")
+	public void insertBoard(BoardDTO boardDTO) {
+		boardService.insertBoard(boardDTO);
+	}
+	
+	@PutMapping("/board")
+	public void updateBoard(BoardDTO boardDTO) {
+		boardService.updateBoard(boardDTO);
+	}
+	
+	@DeleteMapping("/board")
+	public void deleteBoard(int boardNo) {
+		boardService.deleteBoard(boardNo);
 	}
 }
